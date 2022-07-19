@@ -50,11 +50,6 @@ def change_sample_rate(data, rate_from, rate_to):
     return scipy.signal.resample(data, int(len(data) / rate_from * rate_to))
 
 
-def create_spectrogram(data, sample_rate):
-    nperseg = config.nperseg
-    return spectrogram(data, sample_rate, nperseg=nperseg)
-
-
 def get_index_range(f, min_f, max_f):
     start = 0
     end = 0

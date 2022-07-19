@@ -1,0 +1,10 @@
+AudioEditor: change_to_mono : 0:00:02.678468 6%
+AudioEditor: change_sample_rate : 0:00:05.890901 13%
+AudioEditor: spectrogram : 0:00:11.186311 26%
+AudioEditor: log : 0:00:01.709330 4%
+Main find in audio : 0:00:42.163301 100%
+AudioReader : 0:00:02.410705 5%
+AudioEditor : 0:00:21.310563 50%
+FingerPrint : 0:00:17.924035 42%
+Db best fit : 0:00:00.198892 0%
+Recognizer : 0:00:00.051027 0%

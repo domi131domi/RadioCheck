@@ -23,6 +23,5 @@ Output #0, wav, to '../RadioCheckExampleData/mikolajkowy.wav':
   Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, stereo, s16, 1536 kb/s
     Metadata:
       encoder         : Lavc59.18.100 pcm_s16le
-size=       0kB time=00:00:00.00 bitrate=2173.6kbits/s speed= 979x    size=   84224kB time=00:07:29.64 bitrate=1534.5kbits/s speed= 899x    size=  108945kB time=00:09:41.04 bitrate=1536.0kbits/s speed= 899x    
-video:0kB audio:108945kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.000070%
-Exiting normally, received signal 2.
+size=       0kB time=00:00:00.00 bitrate=2173.6kbits/s speed=N/A    size=   80896kB time=00:07:11.71 bitrate=1535.0kbits/s speed= 863x    size=  144363kB time=00:12:49.93 bitrate=1536.0kbits/s speed= 856x    
+video:0kB audio:144362kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.000053%

@@ -1,13 +1,11 @@
+from audio import Audio, get_audio_for_only_name
 from audio_recognizer import AudioRecognizer
 from database_manager import DatabaseManager
 import config
 from audio_reader import AudioReader
 from audio_editor import AudioEditor
-from fingerprint import FingerPrint
-import time
-import datetime
+from fingerprint import FingerPrinter
 import time_printer as tp
-import debug_peak_saver as dps
 
 
 class MainController:
@@ -20,79 +18,76 @@ class MainController:
         self.last_delta = None
         self.time_counter = 0
 
-    def read_command(self, command, value):
-        if command == "learn":
-            self.learn_audio(value)
-        elif command == "find":
-            self.find_in_audio(value)
-        elif command == "test":
-            self.run_test(value)
-        elif command == "save":
-            tp.save_times_with_percentage(value, "Main find in audio")
-        elif command == "path":
-            config.data_path = value
+    def read_command(self, command):
+        if command[0] == "help":
+            print(HELP_TEXT)
+            return
+        elif command[0] == "clean":
+            self.db.clean()
+            return
+        if len(command) < 2:
+            raise RuntimeError("Niepoprawna komenda lub jej wykorzystanie; Komenda: " + str(command))
+        if command[0] == "learn":
+            self.learn_audio(command[1])
+            return
+        elif command[0] == "find":
+            self.find_in_audio(command[1])
+            return
+        elif command[0] == "save":
+            tp.save_times_with_percentage(command[1], "Main find in audio")
+            return
+        elif command[0] == "from_file":
+            self.read_from_file(command[1])
+            return
+        if len(command) < 3:
+            raise RuntimeError("Niepoprawna komenda lub jej wykorzystanie; Komenda: " + str(command))
+        if command[0] == "change":
+            config.change_parameter(command[1], command[2])
+            return
+        else:
+            raise RuntimeError("Niepoprawna komenda lub jej wykorzystanie; Komenda: " + str(command))
 
     def learn_audio(self, name):
-        ar = AudioReader(name)
-        file_data, signal, dtime = ar.read_block()
+        audio = Audio(name, self.db.get_new_id())
+        audio_reader = AudioReader(audio)
+        file_data = audio_reader.sound_file
+
+        signal, dtime = audio_reader.read_block()
         while len(signal > 0):
-            ae = AudioEditor(signal, file_data)
-            spectrogram = ae.prepare_data()
-            fp = FingerPrint(spectrogram, name)
-            res = fp.get_fingerprints()
+            audio_editor = AudioEditor(signal, file_data)
+            signal = audio_editor.prepare_data()
+            finger_printer = FingerPrinter(signal, audio)
+            res = finger_printer.get_fingerprints()
             self.db.save_fingerprints(res)
-            file_data, signal, dtime = ar.read_block()
+            signal, dtime = audio_reader.read_block()
 
         print("Learnt " + name)
-        dps.song = 2
 
     def find_in_audio(self, name):
-        ar = AudioReader(name)
-        tp.start("Main find in audio")
-        tp.start("AudioReader")
-        file_data, signal, dtime = ar.read_block()
-        tp.stop("AudioReader")
-        fit = None
+        audio = get_audio_for_only_name(name)
+        audio_reader = AudioReader(audio)
+        file_data = audio_reader.sound_file
+
+        signal, dtime = audio_reader.read_block()
         recognizer = AudioRecognizer(5)
         while len(signal > 0):
-            tp.start("AudioEditor")
-            ae = AudioEditor(signal, file_data)
-            spectrogram = ae.prepare_data()
-            tp.stop("AudioEditor")
-            tp.start("FingerPrint")
-            fp = FingerPrint(spectrogram, name)
-            fingerprinted2 = fp.get_fingerprints()
-            tp.stop("FingerPrint")
-
-            tp.start("Db best fit")
-            res = self.db.get_best_fit(10, fingerprinted2)
-            tp.stop("Db best fit")
-            tp.start("Recognizer")
+            audio_editor = AudioEditor(signal, file_data)
+            spectrogram = audio_editor.prepare_data()
+            fingerprinter = FingerPrinter(spectrogram, audio)
+            fingerprints = fingerprinter.get_fingerprints()
+            res = self.db.get_best_fit(10, fingerprints)
             recognizer.add_results(res)
-            recognizer.print_highest_value(dtime)
-            tp.stop("Recognizer")
+            name = recognizer.print_highest_value(dtime)
+            # if name is not None:
+            # print(" z " + str(self.db.get_max_fp(name)))
+            signal, dtime = audio_reader.read_block()
 
-            tp.start("AudioReader")
-            file_data, signal, dtime = ar.read_block()
-            tp.stop("AudioReader")
+    def read_from_file(self, filename):
+        file = open(filename, 'r')
+        lines = file.readlines()
+        for line in lines:
+            spl = [x.strip() for x in line.split(' ')]
+            self.read_command(spl)
 
-        tp.stop("Main find in audio")
-        dps.load()
 
-    def run_test(self, value):
-        if value == '1':
-            self.read_command("learn", "reklama_mikolajkowy1.mp3")
-            self.read_command("learn", "reklama_mikolajkowy2.mp3")
-            self.read_command("learn", "reklama_mikolajkowy3.mp3")
-            self.read_command("find", "mikolajkowy.mp3")
-        if value == '2':
-            self.read_command("learn", "reklama_mikolajkowy1.mp3")
-            self.read_command("learn", "reklama_mikolajkowy2.mp3")
-            self.read_command("learn", "reklama_mikolajkowy3.mp3")
-            self.read_command("find", "blok_mikolajkowy.mp3")
-        if value == '3':
-            self.read_command("learn", "reklama_mikolajkowy1.wav")
-            self.read_command("learn", "reklama_mikolajkowy2.wav")
-            self.read_command("learn", "reklama_mikolajkowy3.wav")
-            self.read_command("learn", "test3_reklama1.wav")
-            self.read_command("find", "test3_blok.wav")
+HELP_TEXT = "Dostępne komendy: \n\nlearn [nazwa_pliku.roz] - dodaj plik do rozpoznawania\nfind [nazwa_pliku.roz] - wyszukaj pliki dodane przez komende learn w podanym pliku\nfrom_file [nazwa.txt] - wczytanie komend z pliku\nchange [parametr] [wartość] - zmień wartość parametru\nclean - resetuje nauczone nagrania\n"

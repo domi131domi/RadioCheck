@@ -1,29 +1,19 @@
 import configparser as cp
 
-# names
-import config
-
 _config_filename = 'config.ini'
 _default_section = 'default'
 
 data_path = None
-
-# audio editor
-min_f = 0
-max_f = 0
 sample_rate = 0
 frames = 0
-
-#fingerprint
-nperseg = 0
-maxes_percentage = 0
 box_w_start = 0
 box_w_end = 0
 box_h_start = 0
 box_h_end = 0
-percentage_of_fp = 0
 fs_cutoff = 0
-max_fs_bar = 0
+min_fp_bar = 0
+neighbourhood = 0
+candidates_range = 1
 
 
 def set_configuration(name=_default_section):
@@ -34,21 +24,60 @@ def set_configuration(name=_default_section):
 
 
 def set_data(config_section):
-    global data_path, min_f, max_f, sample_rate, nperseg, maxes_percentage
+    global data_path, sample_rate
     global box_w_start, box_w_end, box_h_start, box_h_end
-    global frames, percentage_of_fp, fs_cutoff, max_fs_bar
+    global frames, fs_cutoff, candidates_range
+    global min_fp_bar, neighbourhood
     data_path = config_section['data_path']
-    min_f = int(config_section['min_f'])
-    max_f = int(config_section['max_f'])
     sample_rate = int(config_section['sample_rate'])
-    nperseg = int(config_section['nperseg'])
-    maxes_percentage = float(config_section['maxes_percentage'])
     box_w_start = int(config_section['box_w_start'])
     box_w_end = int(config_section['box_w_end'])
     box_h_start = int(config_section['box_h_start'])
     box_h_end = int(config_section['box_h_end'])
     frames = int(config_section['frames'])
-    percentage_of_fp = float(config_section['percentage_of_fp'])
     fs_cutoff = int(config_section['fs_cutoff'])
-    max_fs_bar = float(config_section['max_fs_bar'])
+    min_fp_bar = int(config_section['min_fp_bar'])
+    neighbourhood = int(config_section['neighbourhood'])
+    candidates_range = int(config_section['candidates_range'])
 
+
+def change_parameter(name, value):
+    global data_path, sample_rate
+    global box_w_start, box_w_end, box_h_start, box_h_end
+    global frames, fs_cutoff
+    global min_fp_bar
+    try:
+        match name:
+            case "data_path":
+                data_path = value
+                return
+            case "sample_rate":
+                sample_rate = int(value)
+                return
+            case "box_w_start":
+                box_w_start = int(value)
+                return
+            case "box_w_end":
+                box_w_end = int(value)
+                return
+            case "box_h_start":
+                box_h_start = int(value)
+                return
+            case "box_h_end":
+                box_h_end = int(value)
+                return
+            case "frames":
+                frames = int(value)
+                return
+            case "fs_cutoff":
+                fs_cutoff = int(value)
+                return
+            case "min_fp_bar":
+                min_fp_bar = int(value)
+                return
+            case "candidates_range":
+                min_fp_bar = int(value)
+                return
+    except Exception as e:
+        raise RuntimeError("Błąd ustawiania parametru")
+    raise RuntimeError("Parametr nie istnieje")

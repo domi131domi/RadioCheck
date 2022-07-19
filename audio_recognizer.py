@@ -1,4 +1,8 @@
 import datetime
+from typing import Tuple
+
+import config
+from audio import Audio
 
 
 class AudioRecognizer:
@@ -20,8 +24,8 @@ class AudioRecognizer:
         self.current_summary = {}
         for results in self.top_last_results:
             for result in results:
-                key = result[0]
-                count = result[1]
+                key: Tuple[int, Audio] = result[0]
+                count: int = result[1]
                 if key in self.current_summary:
                     self.current_summary[key] += count
                 else:
@@ -31,9 +35,12 @@ class AudioRecognizer:
         sorted_summary = sorted(self.current_summary.items(), key=lambda item: item[1], reverse=True)
         if len(sorted_summary) > 0:
             best = sorted_summary[0]
-            if best[1] > 100:
-                best_name = best[0][1]
+            print(best)
+            if best[1] > config.min_fp_bar:  # mozliwe ze zmienic na % z maksymalnej liczby
+                best_name: Audio = best[0][1]
                 if self.last_recognized != best_name:
                     print("\n\n")
                     self.last_recognized = best_name
-                    print(str(best_name) + " " + str(datetime.timedelta(seconds=current_time)))
+                    print(str(best_name.name) + " " + str(best[1]) + " " + str(datetime.timedelta(seconds=current_time)))
+            return best[0][1]
+        return None

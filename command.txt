@@ -1,5 +1,3 @@
-change data_path ../RadioCheckExampleData/
-learn reklama_mikolajkowy1.mp3
-learn reklama_mikolajkowy2.mp3
-learn reklama_mikolajkowy3.mp3
-find mikolajkowy.mp3
+change data_path ../RadioCheckBadCopy/
+learn edi.wav
+find edi.wav

@@ -31,16 +31,15 @@ class AudioRecognizer:
                 else:
                     self.current_summary[key] = count
 
-    def print_highest_value(self, current_time):
+    def get_best_fit(self, current_time):
         sorted_summary = sorted(self.current_summary.items(), key=lambda item: item[1], reverse=True)
         if len(sorted_summary) > 0:
-            best = sorted_summary[0]
+            best: Tuple[Tuple[int, Audio], int] = sorted_summary[0]
             print(best)
             if best[1] > config.min_fp_bar:  # mozliwe ze zmienic na % z maksymalnej liczby
                 best_name: Audio = best[0][1]
                 if self.last_recognized != best_name:
-                    print("\n\n")
                     self.last_recognized = best_name
-                    print(str(best_name.name) + " " + str(best[1]) + " " + str(datetime.timedelta(seconds=current_time)))
-            return best[0][1]
+                    return best_name.name, datetime.timedelta(seconds=current_time)
+                    #print(str(best_name.name) + " " + str(best[1]) + " " + str(datetime.timedelta(seconds=current_time)))
         return None

@@ -6,7 +6,7 @@ from audio_reader import AudioReader
 from audio_editor import AudioEditor
 from fingerprint import FingerPrinter
 import time_printer as tp
-
+import csv
 
 class MainController:
 
@@ -17,6 +17,7 @@ class MainController:
         self.last_recognized = None
         self.last_delta = None
         self.time_counter = 0
+        self.recognized_audio = []
 
     def read_command(self, command):
         if command[0] == "help":
@@ -33,8 +34,11 @@ class MainController:
         elif command[0] == "find":
             self.find_in_audio(command[1])
             return
-        elif command[0] == "save":
+        elif command[0] == "save_times":
             tp.save_times_with_percentage(command[1], "Main find in audio")
+            return
+        elif command[0] == "save":
+            self.save_to_csv(command[1])
             return
         elif command[0] == "from_file":
             self.read_from_file(command[1])
@@ -77,7 +81,9 @@ class MainController:
             fingerprints = fingerprinter.get_fingerprints()
             res = self.db.get_best_fit(10, fingerprints)
             recognizer.add_results(res)
-            name = recognizer.print_highest_value(dtime)
+            best = recognizer.get_best_fit(dtime)
+            if best is not None:
+                self.recognized_audio.append(best)
             # if name is not None:
             # print(" z " + str(self.db.get_max_fp(name)))
             signal, dtime = audio_reader.read_block()
@@ -88,6 +94,13 @@ class MainController:
         for line in lines:
             spl = [x.strip() for x in line.split(' ')]
             self.read_command(spl)
+
+    def save_to_csv(self, filename):
+        with open(filename + '.csv', 'w') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Nazwa", "Czas wystąpienia"])
+            for row in self.recognized_audio:
+                writer.writerow(row)
 
 
 HELP_TEXT = "Dostępne komendy: \n\nlearn [nazwa_pliku.roz] - dodaj plik do rozpoznawania\nfind [nazwa_pliku.roz] - wyszukaj pliki dodane przez komende learn w podanym pliku\nfrom_file [nazwa.txt] - wczytanie komend z pliku\nchange [parametr] [wartość] - zmień wartość parametru\nclean - resetuje nauczone nagrania\n"

@@ -10,6 +10,7 @@ class AudioReader:
         self.path = config.data_path
         self.sound_file = None
         self.filename = audio.name
+        self.converted_file = None
         self.convert_to_wav()
         self.dtime = 0
 
@@ -17,9 +18,12 @@ class AudioReader:
         try:
             filename = self.path + self.filename
             name, ext = os.path.splitext(filename)
-            if ext != 'wav':
-                os.system('ffmpeg -y -i "%s" "%s%s" 2> logsFfmpeg.txt' % (filename, name, '.wav'))
-                filename = name + '.wav'
+            if ext != '.flac':
+                print("Converting to flac: " + filename)
+                os.system('ffmpeg -y -i "%s" "%s%s" 2> logsFfmpeg.txt' % (filename, name, '.flac'))
+                print("Converted")
+                filename = name + '.flac'
+                self.converted_file = filename
             self.sound_file = sf.SoundFile(filename)
         except Exception as e:
             raise RuntimeError("Błąd konwertowania pliku", e)

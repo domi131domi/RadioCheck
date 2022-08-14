@@ -35,11 +35,13 @@ class AudioRecognizer:
         sorted_summary = sorted(self.current_summary.items(), key=lambda item: item[1], reverse=True)
         if len(sorted_summary) > 0:
             best: Tuple[Tuple[int, Audio], int] = sorted_summary[0]
-            print(best)
+            print(str(best) + '  ' + str(datetime.timedelta(seconds=current_time)))
             if best[1] > config.min_fp_bar:  # mozliwe ze zmienic na % z maksymalnej liczby
+                #print("Znaleziono moc:" + str(best[1]))
                 best_name: Audio = best[0][1]
                 if self.last_recognized != best_name:
                     self.last_recognized = best_name
                     return best_name.name, datetime.timedelta(seconds=current_time)
                     #print(str(best_name.name) + " " + str(best[1]) + " " + str(datetime.timedelta(seconds=current_time)))
+        #self.last_recognized = None
         return None

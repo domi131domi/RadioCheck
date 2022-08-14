@@ -3,3 +3,4 @@ configparser
 numpy
 scipy
 matplotlib
+requests

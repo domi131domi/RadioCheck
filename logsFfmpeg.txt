@@ -9,15 +9,22 @@ ffmpeg version 5.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2022 the F
   libswscale      6.  4.100 /  6.  4.100
   libswresample   4.  3.100 /  4.  3.100
   libpostproc    56.  3.100 / 56.  3.100
-Guessed Channel Layout for Input Stream #0.0 : stereo
-Input #0, wav, from '../RadioCheckBadCopy/edi.wav':
+Input #0, mp3, from 'C:/Users/dszac/RadioCheckProject/RadioCheckExampleData/audycje/reklamy/rmf.mp3':
   Metadata:
-    artist          : Ed Sheeran
-    comment         : https://www.youtube.com/watch?v=Il0S8BoucSA
-    date            : 20210909
-    title           : Ed Sheeran - Shivers [Official Video]
-    encoder         : Lavf58.76.100
-  Duration: 00:03:57.78, bitrate: 1536 kb/s
-  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, stereo, s16, 1536 kb/s
-Output ../RadioCheckBadCopy/edi.wav same as Input #0 - exiting
-FFmpeg cannot edit existing files in-place.
+    encoder         : Lavf58.20.100
+  Duration: 00:00:03.00, start: 0.011995, bitrate: 182 kb/s
+  Stream #0:0: Audio: mp3, 44100 Hz, stereo, fltp, 182 kb/s
+    Metadata:
+      encoder         : LAME3.100
+Stream mapping:
+  Stream #0:0 -> #0:0 (mp3 (mp3float) -> flac (native))
+Press [q] to stop, [?] for help
+[flac @ 00000252d62b0d00] encoding as 24 bits-per-sample
+Output #0, flac, to 'C:/Users/dszac/RadioCheckProject/RadioCheckExampleData/audycje/reklamy/rmf.flac':
+  Metadata:
+    encoder         : Lavf59.16.100
+  Stream #0:0: Audio: flac, 44100 Hz, stereo, s32 (24 bit), 128 kb/s
+    Metadata:
+      encoder         : Lavc59.18.100 flac
+size=       8kB time=00:00:00.00 bitrate=N/A speed=N/A    size=     674kB time=00:00:02.99 bitrate=1845.3kbits/s speed= 194x    
+video:0kB audio:666kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 1.215451%

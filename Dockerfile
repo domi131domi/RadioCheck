@@ -8,4 +8,4 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y ffmpeg
 RUN apt-get update -y && apt-get install -y --no-install-recommends build-essential gcc \
                                         libsndfile1
 COPY . .
-CMD [ "python3", "main.py"]
+CMD tail -f /dev/null

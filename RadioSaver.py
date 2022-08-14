@@ -1,16 +1,40 @@
 import requests
 import time
+import config
+from datetime import datetime
+import os
+import argparse
 
-# stream_url = 'http://195.150.20.245/rmf_fm'
+parser = argparse.ArgumentParser()
+parser.add_argument('--url', action="store", dest='url', default=None)
+parser.add_argument('--time', action="store", dest='time', default=None)
+parser.add_argument('--outFile', action="store", dest='outFile', default=None)
+args = parser.parse_args()
 
-url = input("url do radia: ")
-hours = float(input("czas w h: "))
+#stream_url = 'http://195.150.20.245/rmf_fm'
+
+if args.url is None:
+    url = input("url do radia: ")
+else:
+    url = str(args.url)
+if args.time is None:
+    hours = float(input("czas w h: "))
+else:
+    hours = float(args.time)
+if args.outFile is None:
+    name = input("Nazwa pliku wyjściowego: ")
+else:
+    name = str(args.outFile)
+
 seconds = hours * 60 * 60
 r = requests.get(url, stream=True)
-start = time.time()
+start = datetime.utcnow()
 
-with open('stream.mp3', 'wb') as f:
+with open(name, 'wb') as f:
     for block in r.iter_content(1024):
         f.write(block)
-        if time.time() - start > seconds:
+        now = datetime.utcnow()
+        if (now - start).seconds > seconds:
             break
+
+os.rename(name, name+'_'+start.strftime("%Y_%m_%d_%H_%M_%S")+'_'+now.strftime("%Y_%m_%d_%H_%M_%S")+'.mp3')

@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import scipy.io.wavfile
 import scipy.signal
@@ -11,10 +13,10 @@ import config
 
 class AudioEditor:
 
-    def __init__(self, signal, file_data):
+    def __init__(self, signal, file_sample_rate):
         self.signal = signal
         self.sample_rate = config.sample_rate
-        self.file_data = file_data
+        self.file_sample_rate = file_sample_rate
         self.fs = None
         self.times = None
         self.amplitudes = None
@@ -24,16 +26,19 @@ class AudioEditor:
         self.signal = change_to_mono(self.signal)
         tp.stop("AudioEditor: change_to_mono")
         tp.start("AudioEditor: change_sample_rate")
-        self.signal = change_sample_rate(self.signal, self.file_data.samplerate, self.sample_rate)
+        self.signal = change_sample_rate(self.signal, self.file_sample_rate, self.sample_rate)
         tp.stop("AudioEditor: change_sample_rate")
         tp.start("AudioEditor: spectrogram")
         self.amplitudes, self.fs, self.times = mlab.specgram(
             self.signal,
             Fs=self.sample_rate,
-            window=mlab.window_hanning)
+            NFFT=config.nfft,
+            window=mlab.window_hanning,
+            noverlap=int(config.nfft * 0.5))
         tp.stop("AudioEditor: spectrogram")
         tp.start("AudioEditor: log")
         logAmplitudes = 10 * np.log10(self.amplitudes, out=np.zeros_like(self.amplitudes), where=(self.amplitudes != 0))
+        logAmplitudes[logAmplitudes == 0] = -sys.maxsize
         tp.stop("AudioEditor: log")
         return logAmplitudes[:config.fs_cutoff, :]
 

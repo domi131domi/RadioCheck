@@ -1,30 +1,29 @@
-ffmpeg version 5.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2022 the FFmpeg developers
-  built with gcc 11.2.0 (Rev7, Built by MSYS2 project)
-  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-libass --enable-libfreetype --enable-libfribidi --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libmfx --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
-  libavutil      57. 17.100 / 57. 17.100
-  libavcodec     59. 18.100 / 59. 18.100
-  libavformat    59. 16.100 / 59. 16.100
-  libavdevice    59.  4.100 / 59.  4.100
-  libavfilter     8. 24.100 /  8. 24.100
-  libswscale      6.  4.100 /  6.  4.100
-  libswresample   4.  3.100 /  4.  3.100
-  libpostproc    56.  3.100 / 56.  3.100
-Input #0, mp3, from 'C:/Users/dszac/RadioCheckProject/RadioCheckExampleData/audycje/reklamy/rmf.mp3':
+ffmpeg version N-105913-g4a8b62c29a-20220312 Copyright (c) 2000-2022 the FFmpeg developers
+  built with gcc 11.2.0 (crosstool-NG 1.24.0.533_681aaef)
+  configuration: --prefix=/ffbuild/prefix --pkg-config-flags=--static --pkg-config=pkg-config --cross-prefix=x86_64-w64-mingw32- --arch=x86_64 --target-os=mingw32 --enable-gpl --enable-version3 --disable-debug --disable-w32threads --enable-pthreads --enable-iconv --enable-libxml2 --enable-zlib --enable-libfreetype --enable-libfribidi --enable-gmp --enable-lzma --enable-fontconfig --enable-libvorbis --enable-opencl --disable-libpulse --enable-libvmaf --disable-libxcb --disable-xlib --enable-amf --enable-libaom --enable-avisynth --enable-libdav1d --enable-libdavs2 --disable-libfdk-aac --enable-ffnvcodec --enable-cuda-llvm --enable-frei0r --enable-libgme --enable-libass --enable-libbluray --enable-libmp3lame --enable-libopus --enable-librist --enable-libtheora --enable-libvpx --enable-libwebp --enable-lv2 --enable-libmfx --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenh264 --enable-libopenjpeg --enable-libopenmpt --enable-librav1e --enable-librubberband --enable-schannel --enable-sdl2 --enable-libsoxr --enable-libsrt --enable-libsvtav1 --enable-libtwolame --enable-libuavs3d --disable-libdrm --disable-vaapi --enable-libvidstab --enable-vulkan --enable-libshaderc --enable-libplacebo --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxvid --enable-libzimg --enable-libzvbi --extra-cflags=-DLIBTWOLAME_STATIC --extra-cxxflags= --extra-ldflags=-pthread --extra-ldexeflags= --extra-libs=-lgomp --extra-version=20220312
+  libavutil      57. 23.100 / 57. 23.100
+  libavcodec     59. 23.100 / 59. 23.100
+  libavformat    59. 18.101 / 59. 18.101
+  libavdevice    59.  5.100 / 59.  5.100
+  libavfilter     8. 27.100 /  8. 27.100
+  libswscale      6.  5.100 /  6.  5.100
+  libswresample   4.  4.100 /  4.  4.100
+  libpostproc    56.  4.100 / 56.  4.100
+Input #0, mp3, from 'C:/Users/User/Desktop/RadioCheckExampleData//audycja/fragmenty/audycja2_1.mp3':
   Metadata:
-    encoder         : Lavf58.20.100
-  Duration: 00:00:03.00, start: 0.011995, bitrate: 182 kb/s
+    encoder         : Lavf59.16.100
+  Duration: 00:59:51.86, start: 0.025057, bitrate: 182 kb/s
   Stream #0:0: Audio: mp3, 44100 Hz, stereo, fltp, 182 kb/s
     Metadata:
       encoder         : LAME3.100
 Stream mapping:
-  Stream #0:0 -> #0:0 (mp3 (mp3float) -> flac (native))
+  Stream #0:0 -> #0:0 (mp3 (mp3float) -> pcm_s16le (native))
 Press [q] to stop, [?] for help
-[flac @ 00000252d62b0d00] encoding as 24 bits-per-sample
-Output #0, flac, to 'C:/Users/dszac/RadioCheckProject/RadioCheckExampleData/audycje/reklamy/rmf.flac':
+Output #0, wav, to 'C:/Users/User/Desktop/RadioCheckExampleData//audycja/fragmenty/audycja2_1.wav':
   Metadata:
-    encoder         : Lavf59.16.100
-  Stream #0:0: Audio: flac, 44100 Hz, stereo, s32 (24 bit), 128 kb/s
+    ISFT            : Lavf59.18.101
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, stereo, s16, 1411 kb/s
     Metadata:
-      encoder         : Lavc59.18.100 flac
-size=       8kB time=00:00:00.00 bitrate=N/A speed=N/A    size=     674kB time=00:00:02.99 bitrate=1845.3kbits/s speed= 194x    
-video:0kB audio:666kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 1.215451%
+      encoder         : Lavc59.23.100 pcm_s16le
+size=       0kB time=00:00:00.00 bitrate=1996.2kbits/s speed= 533x    size=   78592kB time=00:07:37.53 bitrate=1407.2kbits/s speed= 915x    size=  157696kB time=00:15:16.06 bitrate=1410.2kbits/s speed= 916x    size=  239872kB time=00:23:13.45 bitrate=1410.2kbits/s speed= 929x    size=  314112kB time=00:30:23.89 bitrate=1410.8kbits/s speed= 912x    size=  392448kB time=00:37:59.13 bitrate=1410.6kbits/s speed= 912x    size=  472576kB time=00:45:44.39 bitrate=1410.6kbits/s speed= 915x    size=  551424kB time=00:53:22.37 bitrate=1410.6kbits/s speed= 915x    size=  618746kB time=00:59:51.81 bitrate=1411.2kbits/s speed= 921x    
+video:0kB audio:618746kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.000012%

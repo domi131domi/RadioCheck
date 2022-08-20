@@ -68,11 +68,11 @@ class MainController:
         audio_reader = AudioReader(audio)
         if audio_reader.converted_file is not None:
             self.files_to_clean.append(audio_reader.converted_file)
-        file_data = audio_reader.sound_file
+        file_samplerate = audio_reader.file_samplerate
 
         signal, dtime = audio_reader.read_block()
         while len(signal > 0):
-            audio_editor = AudioEditor(signal, file_data)
+            audio_editor = AudioEditor(signal, file_samplerate)
             signal = audio_editor.prepare_data()
             finger_printer = FingerPrinter(signal, audio)
             res = finger_printer.get_fingerprints()
@@ -93,12 +93,12 @@ class MainController:
         audio_reader = AudioReader(audio)
         if audio_reader.converted_file is not None:
             self.files_to_clean.append(audio_reader.converted_file)
-        file_data = audio_reader.sound_file
+        file_samplerate = audio_reader.file_samplerate
 
         signal, dtime = audio_reader.read_block()
-        recognizer = AudioRecognizer(5)
+        recognizer = AudioRecognizer(1)
         while len(signal > 0):
-            audio_editor = AudioEditor(signal, file_data)
+            audio_editor = AudioEditor(signal, file_samplerate)
             spectrogram = audio_editor.prepare_data()
             fingerprinter = FingerPrinter(spectrogram, audio)
             fingerprints = fingerprinter.get_fingerprints()
@@ -181,7 +181,7 @@ def make_files_distinct(files):
         name = str(file).split('.')[0]
         ext = str(file).split('.')[1]
         if name in names:
-            if ext == 'flac':
+            if ext == 'wav':
                 names[name] = file
         else:
             names[name] = file

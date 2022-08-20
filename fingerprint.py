@@ -1,10 +1,14 @@
 import hashlib
 import string
+import sys
 
 import numpy as np
 from scipy.ndimage import maximum_filter
 import config
 from audio import Audio
+
+sig = []
+local = []
 
 
 class Point:
@@ -48,7 +52,7 @@ class FingerPrinter:
 
 
 def find_local_max(signal):
-    max_filter = maximum_filter(signal, size=config.neighbourhood, mode='constant', cval=0.0)
+    max_filter = maximum_filter(signal, size=config.neighbourhood, mode='constant', cval=-sys.maxsize)
     local_max = (signal == max_filter)
     idx_freq, idx_times = np.where(local_max)
     pairs = list(zip(idx_freq, idx_times))

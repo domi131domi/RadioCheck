@@ -14,6 +14,8 @@ fs_cutoff = 0
 min_fp_bar = 0
 neighbourhood = 0
 candidates_range = 1
+nfft = 0
+min_advantage = 0
 
 
 def set_configuration(name=_default_section):
@@ -28,6 +30,7 @@ def set_data(config_section):
     global box_w_start, box_w_end, box_h_start, box_h_end
     global frames, fs_cutoff, candidates_range
     global min_fp_bar, neighbourhood
+    global nfft, min_advantage
     data_path = config_section['data_path']
     sample_rate = int(config_section['sample_rate'])
     box_w_start = int(config_section['box_w_start'])
@@ -39,6 +42,8 @@ def set_data(config_section):
     min_fp_bar = int(config_section['min_fp_bar'])
     neighbourhood = int(config_section['neighbourhood'])
     candidates_range = int(config_section['candidates_range'])
+    nfft = int(config_section['nfft'])
+    min_advantage = int(config_section['min_advantage'])
 
 
 def change_parameter(name, value):
